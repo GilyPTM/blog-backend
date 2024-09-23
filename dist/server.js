@@ -25,7 +25,11 @@ const app = (0, express_1.default)();
 //   url: process.env.REDIS_URL || "redis://localhost:6379",
 // });
 // redisClient.connect().catch(console.error);
-// Session setup using Redis
+app.use((0, cors_1.default)({
+    origin: ["https://blog-frontend-livid-one.vercel.app"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+}));
 app.use((0, express_session_1.default)({
     // store: new RedisStore({ client: redisClient }),
     secret: process.env.SESSION_SECRET || "default_secret", // Make sure this is set securely in production
@@ -46,11 +50,6 @@ app.use((0, express_session_1.default)({
 app.use(express_1.default.static(path_1.default.join(__dirname, "dist")));
 app.use((0, express_fileupload_1.default)());
 const port = process.env.PORT;
-app.use((0, cors_1.default)({
-    origin: ["http://localhost:3000"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-}));
 app.use("/users", userRouter_1.userRouter);
 app.use("/posts", postRouter_1.postRouter);
 app.use("/admin", adminRouter_1.adminRouter);
