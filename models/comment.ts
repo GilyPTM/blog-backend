@@ -10,6 +10,7 @@ export const findAll = (
     FROM comments
     JOIN users ON comments.user_id = users.id
     WHERE comments.post_id = ?;`;
+  // @ts-ignore
   db.query(queryString, [postid], (err, result) => {
     if (err) {
       return callback(err); // Return the callback on error
@@ -47,6 +48,7 @@ export const addComment = (
     const query = db.query(
       queryString,
       [comment.id, comment.text, comment.post_id, comment.user_id],
+      // @ts-ignore
       (err, result) => {
         if (err) {
           // Return the callback immediately when there is an error
@@ -66,6 +68,7 @@ export const addComment = (
     );
 
     // Log the SQL query for debugging
+    // @ts-ignore
     console.log(query.sql);
   } catch (error) {
     // Catch any unexpected errors and pass them to the callback

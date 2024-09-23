@@ -14,8 +14,10 @@ const db_1 = require("../db");
 // Get all posts
 const findAll = (callback) => {
     const queryString = `SELECT * FROM posts`;
+    // @ts-ignore
     db_1.db.query(queryString, (err, result) => {
         if (err) {
+            console.log("err " + queryString, err);
             callback(err);
         }
         const rows = result;
@@ -86,6 +88,7 @@ exports.findAllCategories = findAllCategories;
 // Get one user
 const findOne = (postId, callback) => {
     const queryString = `SELECT * FROM posts AS p INNER JOIN categories AS c ON p.categorie_id = c.id WHERE p.id=?`;
+    // @ts-ignore
     db_1.db.query(queryString, postId, (err, result) => {
         if (err) {
             callback(err);
@@ -112,7 +115,9 @@ const addPost = (post, callback) => __awaiter(void 0, void 0, void 0, function* 
     try {
         // Promisify the db.query call to use async/await
         const result = yield new Promise((resolve, reject) => {
-            db_1.db.query(queryString, [post.titlu, post.continut, post.categorie_id, post.user_id, post.poza], (err, result) => {
+            db_1.db.query(queryString, [post.titlu, post.continut, post.categorie_id, post.user_id, post.poza], 
+            // @ts-ignore
+            (err, result) => {
                 if (err) {
                     return reject(err); // If error, reject the promise
                 }
@@ -137,6 +142,7 @@ const addPost = (post, callback) => __awaiter(void 0, void 0, void 0, function* 
 exports.addPost = addPost;
 const deletePost = (id, callback) => {
     const queryString = "DELETE FROM posts WHERE id = ?";
+    // @ts-ignore
     db_1.db.query(queryString, [id], (err, result) => {
         if (err) {
             return callback(err);
@@ -169,6 +175,7 @@ const editPost = (id, updatedData, callback) => {
     const queryString = `UPDATE posts SET ${fieldsToUpdate.join(", ")} WHERE id = ?`;
     // Adding the ID to the list of values
     values.push(id);
+    // @ts-ignore
     db_1.db.query(queryString, values, (err, result) => {
         if (err) {
             return callback(err);

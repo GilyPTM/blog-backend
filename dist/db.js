@@ -30,9 +30,11 @@ exports.db = void 0;
 const mysql2_1 = __importDefault(require("mysql2"));
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
+// Create a connection pool
 exports.db = mysql2_1.default.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PWD,
-    database: process.env.DB_NAME,
+    host: process.env.DB_HOST || "localhost",
+    user: process.env.DB_USER || "root",
+    password: process.env.DB_PWD || "",
+    database: process.env.DB_NAME || "mydatabase",
+    port: Number(process.env.DB_PORT) || 3306,
 });

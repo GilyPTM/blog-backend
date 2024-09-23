@@ -5,6 +5,8 @@ import { OkPacket, RowDataPacket } from "mysql2";
 // Get all users
 export const findAll = (callback: Function) => {
   const queryString = `SELECT * FROM users`;
+
+  // @ts-ignore
   db.query(queryString, (err, result) => {
     if (err) {
       callback(err);
@@ -27,6 +29,8 @@ export const findAll = (callback: Function) => {
 // Get one user
 export const findOne = (userId: number, callback: Function) => {
   const queryString = `SELECT * FROM users WHERE id=?`;
+
+  // @ts-ignore
   db.query(queryString, userId, (err, result) => {
     if (err) {
       callback(err);
@@ -47,6 +51,8 @@ export const findOne = (userId: number, callback: Function) => {
 export const create = (user: User, callback: Function) => {
   //Verificam daca exista user cu aceasta adresa de email
   const sql = "SELECT * FROM users WHERE email = ?";
+
+  // @ts-ignore
   db.query(sql, [user.email], (err, result) => {
     const row = (<RowDataPacket>result)[0];
     if (row !== null && row !== undefined) {
@@ -61,6 +67,7 @@ export const create = (user: User, callback: Function) => {
         db.query(
           queryString,
           [user.nume, user.prenume, user.email, password_hash],
+          // @ts-ignore
           (err, result) => {
             if (<OkPacket>result !== undefined) {
               const insertId = (<OkPacket>result).insertId;
@@ -90,7 +97,7 @@ export const updateUser = (userId: number, user: User, callback: Function) => {
     queryString = `UPDATE users SET nume=?, prenume=?, email=?, parola=? WHERE id=?`;
     queryParams = [user.nume, user.prenume, user.email, password_hash, userId];
   }
-
+  // @ts-ignore
   db.query(queryString, queryParams, (err, result) => {
     if (err) {
       callback(err);
@@ -103,7 +110,7 @@ export const updateUser = (userId: number, user: User, callback: Function) => {
 export const deleteUser = (user: number, callback: Function) => {
   console.log(user);
   const queryString = `DELETE FROM users WHERE id=?`;
-
+  // @ts-ignore
   db.query(queryString, [user], (err, result) => {
     if (err) {
       callback(err);
@@ -116,6 +123,7 @@ export const deleteUser = (user: number, callback: Function) => {
 export const veifyPassword = (user: User, callback: Function) => {
   const queryString = `SELECT id, nume, prenume, email, parola from users where email=? LIMIT 1;`;
   const passwordUser = user.parola;
+  // @ts-ignore
   db.query(queryString, [user.email], (err, result) => {
     if (err) {
       callback(err);

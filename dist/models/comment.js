@@ -7,6 +7,7 @@ const findAll = (postid, callback) => {
     FROM comments
     JOIN users ON comments.user_id = users.id
     WHERE comments.post_id = ?;`;
+    // @ts-ignore
     db_1.db.query(queryString, [postid], (err, result) => {
         if (err) {
             return callback(err); // Return the callback on error
@@ -32,7 +33,9 @@ const addComment = (comment, callback) => {
     const queryString = "INSERT INTO comments (id, text, post_id, user_id) VALUES (?, ?, ?, ?)";
     console.log(comment);
     try {
-        const query = db_1.db.query(queryString, [comment.id, comment.text, comment.post_id, comment.user_id], (err, result) => {
+        const query = db_1.db.query(queryString, [comment.id, comment.text, comment.post_id, comment.user_id], 
+        // @ts-ignore
+        (err, result) => {
             if (err) {
                 // Return the callback immediately when there is an error
                 return callback(err);
@@ -49,6 +52,7 @@ const addComment = (comment, callback) => {
             }
         });
         // Log the SQL query for debugging
+        // @ts-ignore
         console.log(query.sql);
     }
     catch (error) {

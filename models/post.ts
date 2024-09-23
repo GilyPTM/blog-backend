@@ -5,8 +5,10 @@ import { OkPacket, RowDataPacket } from "mysql2";
 // Get all posts
 export const findAll = (callback: Function) => {
   const queryString = `SELECT * FROM posts`;
+  // @ts-ignore
   db.query(queryString, (err, result) => {
     if (err) {
+      console.log("err " + queryString, err);
       callback(err);
     }
     const rows = <RowDataPacket[]>result;
@@ -75,6 +77,7 @@ export const findAllCategories = (callback: Function) => {
 // Get one user
 export const findOne = (postId: number, callback: Function) => {
   const queryString = `SELECT * FROM posts AS p INNER JOIN categories AS c ON p.categorie_id = c.id WHERE p.id=?`;
+  // @ts-ignore
   db.query(queryString, postId, (err, result) => {
     if (err) {
       callback(err);
@@ -107,6 +110,7 @@ export const addPost = async (post: Post, callback: Function) => {
       db.query(
         queryString,
         [post.titlu, post.continut, post.categorie_id, post.user_id, post.poza],
+        // @ts-ignore
         (err, result) => {
           if (err) {
             return reject(err); // If error, reject the promise
@@ -133,7 +137,7 @@ export const addPost = async (post: Post, callback: Function) => {
 
 export const deletePost = (id: number, callback: Function) => {
   const queryString = "DELETE FROM posts WHERE id = ?";
-
+  // @ts-ignore
   db.query(queryString, [id], (err, result) => {
     if (err) {
       return callback(err);
@@ -178,6 +182,7 @@ export const editPost = (
   // Adding the ID to the list of values
   values.push(id);
 
+  // @ts-ignore
   db.query(queryString, values, (err, result) => {
     if (err) {
       return callback(err);

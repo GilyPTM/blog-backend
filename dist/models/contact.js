@@ -5,6 +5,7 @@ const db_1 = require("../db");
 // Get all users
 const findAll = (callback) => {
     const queryString = `SELECT * FROM contact`;
+    // @ts-ignore
     db_1.db.query(queryString, (err, result) => {
         if (err) {
             callback(err);
@@ -27,6 +28,7 @@ const findAll = (callback) => {
 exports.findAll = findAll;
 const findOne = (contactId, callback) => {
     const queryString = `SELECT * FROM contact WHERE id=?`;
+    // @ts-ignore
     db_1.db.query(queryString, contactId, (err, result) => {
         if (err) {
             callback(err);
@@ -48,7 +50,9 @@ const create = (contact, callback) => {
     const queryString = "INSERT INTO contact (nume, prenume, email, mesaj) VALUES (?, ?, ?, ?)";
     console.log("insert", contact);
     try {
-        db_1.db.query(queryString, [contact.firstName, contact.lastName, contact.email, contact.message], (err, result) => {
+        db_1.db.query(queryString, [contact.firstName, contact.lastName, contact.email, contact.message], 
+        // @ts-ignore
+        (err, result) => {
             if (result !== undefined) {
                 const insertId = result.insertId;
                 callback(null, insertId);

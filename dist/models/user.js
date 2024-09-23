@@ -9,6 +9,7 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 // Get all users
 const findAll = (callback) => {
     const queryString = `SELECT * FROM users`;
+    // @ts-ignore
     db_1.db.query(queryString, (err, result) => {
         if (err) {
             callback(err);
@@ -32,6 +33,7 @@ exports.findAll = findAll;
 // Get one user
 const findOne = (userId, callback) => {
     const queryString = `SELECT * FROM users WHERE id=?`;
+    // @ts-ignore
     db_1.db.query(queryString, userId, (err, result) => {
         if (err) {
             callback(err);
@@ -52,6 +54,7 @@ exports.findOne = findOne;
 const create = (user, callback) => {
     //Verificam daca exista user cu aceasta adresa de email
     const sql = "SELECT * FROM users WHERE email = ?";
+    // @ts-ignore
     db_1.db.query(sql, [user.email], (err, result) => {
         const row = result[0];
         if (row !== null && row !== undefined) {
@@ -63,7 +66,9 @@ const create = (user, callback) => {
             let saltRounds = bcryptjs_1.default.genSaltSync(10);
             let password_hash = bcryptjs_1.default.hashSync(user.parola, saltRounds);
             try {
-                db_1.db.query(queryString, [user.nume, user.prenume, user.email, password_hash], (err, result) => {
+                db_1.db.query(queryString, [user.nume, user.prenume, user.email, password_hash], 
+                // @ts-ignore
+                (err, result) => {
                     if (result !== undefined) {
                         const insertId = result.insertId;
                         callback(null, insertId);
@@ -92,6 +97,7 @@ const updateUser = (userId, user, callback) => {
         queryString = `UPDATE users SET nume=?, prenume=?, email=?, parola=? WHERE id=?`;
         queryParams = [user.nume, user.prenume, user.email, password_hash, userId];
     }
+    // @ts-ignore
     db_1.db.query(queryString, queryParams, (err, result) => {
         if (err) {
             callback(err);
@@ -104,6 +110,7 @@ exports.updateUser = updateUser;
 const deleteUser = (user, callback) => {
     console.log(user);
     const queryString = `DELETE FROM users WHERE id=?`;
+    // @ts-ignore
     db_1.db.query(queryString, [user], (err, result) => {
         if (err) {
             callback(err);
@@ -116,6 +123,7 @@ exports.deleteUser = deleteUser;
 const veifyPassword = (user, callback) => {
     const queryString = `SELECT id, nume, prenume, email, parola from users where email=? LIMIT 1;`;
     const passwordUser = user.parola;
+    // @ts-ignore
     db_1.db.query(queryString, [user.email], (err, result) => {
         if (err) {
             callback(err);

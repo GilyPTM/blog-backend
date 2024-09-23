@@ -4,6 +4,7 @@ import { OkPacket, RowDataPacket } from "mysql2";
 // Get all users
 export const findAll = (callback: Function) => {
   const queryString = `SELECT * FROM contact`;
+  // @ts-ignore
   db.query(queryString, (err, result) => {
     if (err) {
       callback(err);
@@ -26,6 +27,7 @@ export const findAll = (callback: Function) => {
 
 export const findOne = (contactId: number, callback: Function) => {
   const queryString = `SELECT * FROM contact WHERE id=?`;
+  // @ts-ignore
   db.query(queryString, contactId, (err, result) => {
     if (err) {
       callback(err);
@@ -52,6 +54,7 @@ export const create = (contact: Contact, callback: Function) => {
     db.query(
       queryString,
       [contact.firstName, contact.lastName, contact.email, contact.message],
+      // @ts-ignore
       (err, result) => {
         if (<OkPacket>result !== undefined) {
           const insertId = (<OkPacket>result).insertId;

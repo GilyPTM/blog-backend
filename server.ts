@@ -9,13 +9,42 @@ import { postRouter } from "./routes/postRouter";
 import { adminRouter } from "./routes/adminRouter";
 import { contactRouter } from "./routes/contactRouter";
 import { commentRouter } from "./routes/commentRouter";
+import { db } from "./db";
+
+// import RedisStore from "connect-redis";
+// import { createClient } from "redis"; // Redis client
 dotenv.config();
 
+db.connect();
+
 const app: Express = express();
+
+// // Redis Client Setup
+// const redisClient = createClient({
+//   url: process.env.REDIS_URL || "redis://localhost:6379",
+// });
+
+// redisClient.connect().catch(console.error);
+
+// Session setup using Redis
+app.use(
+  session({
+    // store: new RedisStore({ client: redisClient }),
+    secret: process.env.SESSION_SECRET || "default_secret", // Make sure this is set securely in production
+    resave: false, // Prevents unnecessary session resaving
+    saveUninitialized: false, // Don't save empty sessions
+    cookie: {
+      secure: process.env.NODE_ENV === "production", // Secure cookie in production
+      httpOnly: true, // Prevent client-side JS from reading the cookie
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+    },
+  })
+);
+
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
-    secret: "secret",
+    secret: process.env.SECRET,
     resave: true,
     saveUninitialized: true,
   })
