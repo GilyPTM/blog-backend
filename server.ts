@@ -26,7 +26,14 @@ const app: Express = express();
 
 // redisClient.connect().catch(console.error);
 
-// Session setup using Redis
+app.use(
+  cors({
+    origin: ["https://blog-frontend-livid-one.vercel.app"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
 app.use(
   session({
     // store: new RedisStore({ client: redisClient }),
@@ -53,13 +60,7 @@ app.use(express.static(path.join(__dirname, "dist")));
 
 app.use(fileUpload());
 const port = process.env.PORT;
-app.use(
-  cors({
-    origin: ["https://blog-frontend-livid-one.vercel.app"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
+
 app.use("/users", userRouter);
 app.use("/posts", postRouter);
 app.use("/admin", adminRouter);
