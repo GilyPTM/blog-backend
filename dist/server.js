@@ -15,6 +15,14 @@ const adminRouter_1 = require("./routes/adminRouter");
 const contactRouter_1 = require("./routes/contactRouter");
 const commentRouter_1 = require("./routes/commentRouter");
 const db_1 = require("./db");
+const fs_1 = __importDefault(require("fs"));
+var dir = "uploads";
+if (!fs_1.default.existsSync(dir)) {
+    fs_1.default.mkdirSync(dir);
+}
+if (!fs_1.default.existsSync(`dist/${dir}`)) {
+    fs_1.default.mkdirSync(`dist/${dir}`);
+}
 // import RedisStore from "connect-redis";
 // import { createClient } from "redis"; // Redis client
 dotenv_1.default.config();

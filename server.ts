@@ -10,7 +10,15 @@ import { adminRouter } from "./routes/adminRouter";
 import { contactRouter } from "./routes/contactRouter";
 import { commentRouter } from "./routes/commentRouter";
 import { db } from "./db";
+import fs from "fs";
+var dir = "uploads";
 
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir);
+}
+if (!fs.existsSync(`dist/${dir}`)) {
+  fs.mkdirSync(`dist/${dir}`);
+}
 // import RedisStore from "connect-redis";
 // import { createClient } from "redis"; // Redis client
 dotenv.config();
