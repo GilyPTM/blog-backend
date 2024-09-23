@@ -17,11 +17,16 @@ const commentRouter_1 = require("./routes/commentRouter");
 const db_1 = require("./db");
 const fs_1 = __importDefault(require("fs"));
 var dir = "uploads";
-if (!fs_1.default.existsSync(dir)) {
-    fs_1.default.mkdirSync(dir);
+try {
+    if (!fs_1.default.existsSync(dir)) {
+        fs_1.default.mkdirSync(dir);
+    }
+    if (!fs_1.default.existsSync(`dist/${dir}`)) {
+        fs_1.default.mkdirSync(`dist/${dir}`);
+    }
 }
-if (!fs_1.default.existsSync(`dist/${dir}`)) {
-    fs_1.default.mkdirSync(`dist/${dir}`);
+catch (e) {
+    console.log(e);
 }
 // import RedisStore from "connect-redis";
 // import { createClient } from "redis"; // Redis client

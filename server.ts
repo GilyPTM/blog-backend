@@ -13,11 +13,15 @@ import { db } from "./db";
 import fs from "fs";
 var dir = "uploads";
 
-if (!fs.existsSync(dir)) {
-  fs.mkdirSync(dir);
-}
-if (!fs.existsSync(`dist/${dir}`)) {
-  fs.mkdirSync(`dist/${dir}`);
+try {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+  }
+  if (!fs.existsSync(`dist/${dir}`)) {
+    fs.mkdirSync(`dist/${dir}`);
+  }
+} catch (e) {
+  console.log(e);
 }
 // import RedisStore from "connect-redis";
 // import { createClient } from "redis"; // Redis client
