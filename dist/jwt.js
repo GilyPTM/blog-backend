@@ -23,7 +23,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyToken = exports.generateToken = void 0;
+exports.generateToken = generateToken;
+exports.verifyToken = verifyToken;
 const jsonwebtoken_1 = __importStar(require("jsonwebtoken"));
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
@@ -44,7 +45,6 @@ function generateToken() {
     const key = process.env.SECRET_KEY;
     return (0, jsonwebtoken_1.sign)(payload, key, signInOptions);
 }
-exports.generateToken = generateToken;
 function verifyToken(req, res) {
     let token = req.headers["x-access-token"];
     console.log("token", token);
@@ -67,4 +67,3 @@ function verifyToken(req, res) {
     });
     return true;
 }
-exports.verifyToken = verifyToken;
