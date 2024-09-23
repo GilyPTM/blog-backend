@@ -55,7 +55,7 @@ app.use(fileUpload());
 const port = process.env.PORT;
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["https://blog-frontend-livid-one.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
